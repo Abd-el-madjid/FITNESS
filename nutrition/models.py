@@ -44,7 +44,7 @@ class Person(models.Model):
                              on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     date_of_birth = models.DateField()
-    sex = models.CharField(max_length=1, choices=[(
+    sex = models.CharField(max_length=8, choices=[(
         'M', 'Male'), ('F', 'Female'), ('O', 'Other')])
 
     @property

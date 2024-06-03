@@ -281,7 +281,9 @@ def account_views(request):
         person_date_creation = request.user.date_joined
         person = Person.objects.get(user=request.user)
         person_name = person.name
-        person_sex = person.sex
+        person_sex = "Male" if person.sex == "M" else "Female" if person.sex == "F" else "Other"
+
+        
         person_date_of_birth= person.date_of_birth
         context = { 'person_email':person_email, 'person_name':person_name, 'person_last_login': person_last_login,
                    'person_date_creation':person_date_creation, 'person_date_of_birth': person_date_of_birth, 'person_sex': person_sex,}
@@ -302,6 +304,8 @@ def account_views(request):
                 request.user.email = email
                 request.user.save()
                 update_session_auth_hash(request, request.user)
+                messages.success(request, 'Your email has been changed successfully.')
+
                 return redirect('account')
             elif form_name == 'update_password':
                 current_password = request.POST.get('currentPassword')
@@ -326,6 +330,8 @@ def account_views(request):
                 request.user.is_active = False
                 request.user.save()
                 logout(request)
+                messages.success(request, 'Your Account has been deleted successfully.')
+
                 return redirect('/')
             elif form_name == 'update_personal_details':
 
@@ -340,12 +346,13 @@ def account_views(request):
                 year_birth = request.POST.get('year')
                 person.date_of_birth = f"{year_birth}-{month_birth}-{day_birth}"
                 person.sex = request.POST.get('sex')
+
                 # Save the updated Personne object
-                personne.save()
+                person.save()
                 messages.success(request, 'Your profile has been updated successfully!')
                 return redirect('account')
           
-    return render(request, 'profile/account.html')
+    return render(request, 'profile/account.html', context)
 
 def players_views(request):
     return render(request, 'nutrition/manage_players/manage_players.html')
