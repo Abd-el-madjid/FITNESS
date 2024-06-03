@@ -34,9 +34,13 @@ def login_signup_view(request):
                 request, email=email, password=password)
 
             if user:
-                auth_login(request, user)
-                messages.success(request, 'Welcome back!')
-                return redirect('clubs')
+                if user.is_active:
+                    auth_login(request, user)
+                    messages.success(request, 'Welcome back!')
+                    return redirect('clubs')
+                else:
+                    messages.error(request, 'Your account is deactivated ')
+      
             else:
                 messages.error(request, 'Wrong password or email')
                 return render(request, 'authentification/login.html', {'login_error': True})
