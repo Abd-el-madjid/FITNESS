@@ -1,0 +1,171 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            background-image: url('/media/images/blob-scene-haikei (1).png');
+            backdrop-filter: blur(8px);
+
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/login/login.css' %}" rel="stylesheet">
+    <link href="{% static 'css/general/icons_google.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/general/fonts/fontawesome.css' %}" rel="stylesheet">
+
+
+    <title>Quiz Game</title>
+</head>
+
+<body>
+
+    <div class="container" id="container">
+
+        <div class="form-container sign-up">
+            <form method="post" action="{% url 'login_signup' %}" id="signup-form">
+
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="signup-form">
+                <h1>Create Account</h1>
+
+                <span>or use your email for registeration</span>
+                <input type="text" placeholder="Name" id="name" name="name" required>
+                <input type="date" name="date_of_birth" id="date_of_birth" required><br>
+
+                <label for="sex">Sex:</label>
+                <select name="sex" id="sex" required>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="O">Other</option>
+                </select><br>
+
+                <input type="email" placeholder="Email" id="email_signup" name="email" required>
+
+                <input type="password" placeholder="Password" id="pass_signup" name="password" required>
+                <div id="error-list"></div>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form method="post" action="{% url 'login_signup' %}" id="login-form">
+                {% csrf_token %}
+                <h1>Sign In</h1>
+                <input type="hidden" name="form_type" value="login-form">
+                <span>or use your email password</span>
+                <input type="email" placeholder="Email " id="email_login" name="email" required>
+                <input type="password" placeholder="Password" id="pass_login" name="password" required>
+
+                <a href="{% url 'password_reset' %}">Forget Your Password?</a>
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Register with your personal details to use all of site features</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/login/script.js' %}"></script>
+
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const passwordInput = document.getElementById("pass_signup");
+        const errorList = document.getElementById("error-list");
+
+        passwordInput.addEventListener("input", function () {
+            // Reset error list before validation
+            errorList.innerHTML = "";
+
+            // Password validation checks
+            const password = passwordInput.value;
+            const errors = [];
+
+            // Check if the password is too similar to the email
+            const emailInput = document.getElementById("name");
+            if (password.includes(emailInput.value)) {
+                errors.push("Your password can't be too similar to your email information.");
+            }
+
+            // Check if the password contains at least 8 characters
+            if (password.length < 8) {
+                errors.push("Your password must contain at least 8 characters.");
+            }
+
+            // Check if the password is entirely numeric
+            if (/^\d+$/.test(password)) {
+                errors.push("Your password can't be entirely numeric.");
+            }
+
+            // Display errors if any
+            if (errors.length > 0) {
+                const errorUl = document.createElement("ul");
+                errors.forEach(function (error) {
+                    const li = document.createElement("li");
+                    li.textContent = error;
+                    li.className = "li_error"; // Add the class 'li_error'
+                    errorUl.appendChild(li);
+                });
+
+                errorList.appendChild(errorUl);
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% for message in messages %}
+{% if message.tags == 'error' %}
+<script type="text/javascript">
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'custom-alert alert-error';
+    alertDiv.innerHTML = '<div class="icon__wrapper"><span class="material-symbols-outlined">error</span></div><p> {{ message|safe }}</p>';
+
+    const body = document.getElementById('body');
+    document.body.appendChild(alertDiv);
+    setTimeout(function () {
+        alertDiv.remove();
+    }, 10000);
+</script>
+{% else %}
+<script type="text/javascript">
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'custom-alert alert-success';
+    alertDiv.innerHTML = '<div class="icon__wrapper"><span class="material-symbols-outlined">task_alt</span></div> <p>{{ message|safe }}</p>';
+    document.body.appendChild(alertDiv);
+
+    setTimeout(function () {
+        alertDiv.remove();
+    }, 3000);
+</script>
+{% endif %}
+{% endfor %}
+
+</html>

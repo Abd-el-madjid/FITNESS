@@ -1,0 +1,195 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .hero.overlay {
+            background-image: url('/media/images/bg_3.jpg');
+        }
+    </style>
+
+
+    <title>Quiz Game</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+
+    <link href="{% static 'css/general/icons_google.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/general/icomoon/style.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/general/bootstrap2.css' %}" rel="stylesheet">
+    <link href="{% static 'css/general/jquery-ui.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/home/home.css' %}" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+    <div class="site-wrap">
+
+        <div class="site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div>
+
+
+        <header class="site-navbar py-4" role="banner">
+
+            <div class="container">
+                <div class="d-flex align-items-center">
+                    <div class="site-logo">
+                        <a href="{% url 'home' %}">
+                            <img src=" /media/images/logo.png" alt="Logo">
+
+                        </a>
+                    </div>
+                    <div class="ml-auto">
+                        <nav class="site-navigation position-relative text-right" role="navigation">
+                            <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                                <!-- ... (previous HTML code) ... -->
+                                <li class="active"><a href="{% url 'home' %}" class="nav-link">home</a></li>
+
+                                <li><a href="{% url 'login_signup' %}" class="nav-link">sign up</a></li>
+                                <li><a href="{% url 'login_signup' %}" class="nav-link">sign in</a></li>
+                                <!-- ... (remaining HTML code) ... -->
+
+                               
+                                <p></p>
+
+
+
+                            </ul>
+                        </nav>
+
+                        <a href="#"
+                            class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black float-right text-white"><span
+                                class="icon-menu h3 text-white"></span></a>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+
+        <div class="hero overlay">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 ml-auto">
+
+                        <h1 class="text-white">Soccer Smarts Challenge</h1>
+                        <p>Unlock the depths of your football knowledge with our thrilling quiz! Dive into questions
+                            about your beloved teams,
+                            star players, and the beautiful game itself.</p>
+                        <div id="date-countdown"></div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <div class="container   ">
+            <div class="row team-vs p-4">
+                <div class="col-lg-6 ">
+                    <div class="widget-next-match bg-dark">
+                        <div class="widget-title">
+                            <h3>board games</h3>
+                        </div>
+
+
+                        <div class="text-left widget-vs-contents mb-4" style="margin-top: 20px; margin-left: 10px; ">
+                            <h4>Immerse and captivate every football aficionado</h4>
+                            <p class="mb-5">
+                                <span class="d-block">Engage enthusiasts at their own pace, from any device.</span>
+
+                            </p>
+                            <h4>Quiz gamification for football enthusiasts</h4>
+                            <p class="mb-5">
+                                <span class="d-block">A dynamic leaderboard showcasing the best 5 scores, themed
+                                    challenges, sound
+                                    effects, and more to fuel the excitement of
+                                    the game</span>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+        <!-- .site-section -->
+
+
+
+
+
+    </div>
+    <!-- .site-wrap -->
+
+
+
+    <script src="{% static 'js/home/owl.carousel.min.js' %}"></script>
+
+    <script src="{% static 'js/home/aos.js' %}"></script>
+
+    <script src="{% static 'js/home/main.js' %}"></script>
+
+    <!-- Bootstrap JS and dependencies (Popper.js and jQuery) -->
+
+
+
+</body>
+{% for message in messages %}
+{% if message.tags == 'error' %}
+<script type="text/javascript">
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'custom-alert alert-error';
+    alertDiv.innerHTML = '<div class="icon__wrapper"><span class="material-symbols-outlined">error</span></div><p> {{ message|safe }}</p>';
+
+    const body = document.getElementById('body');
+    document.body.appendChild(alertDiv);
+    setTimeout(function () {
+        alertDiv.remove();
+    }, 10000);
+</script>
+{% else %}
+<script type="text/javascript">
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'custom-alert alert-success';
+    alertDiv.innerHTML = '<div class="icon__wrapper"><span class="material-symbols-outlined">task_alt</span></div> <p>{{ message|safe }}</p>';
+    document.body.appendChild(alertDiv);
+
+    setTimeout(function () {
+        alertDiv.remove();
+    }, 3000);
+</script>
+{% endif %}
+{% endfor %}
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ player.name }}'s Details</title>
+</head>
+
+<body>
+    <h1>{{ player.name }}</h1>
+    <p>Age: {{ player.age }}</p>
+    <p>Sex: {{ player.sex }}</p>
+    <p>Weight: {{ player.weight }}</p>
+    <p>Height: {{ player.height }}</p>
+
+    <h2>Nutritional Info</h2>
+    {% if nutritional_info %}
+    <p>Ratio: {{ nutritional_info.ratio }}</p>
+    <p>Carbs: {{ nutritional_info.carbs_percentage }}%</p>
+    <p>Fats: {{ nutritional_info.fats_percentage }}%</p>
+    <p>Proteins: {{ nutritional_info.proteins_percentage }}%</p>
+    {% else %}
+    <p>No nutritional info available.</p>
+    <a href="{% url 'create_nutritional_info' player.id %}">Add Nutritional Info</a>
+    {% endif %}
+
+    <h2>Activity Logs</h2>
+    {% if activity_logs %}
+    <ul>
+        {% for log in activity_logs %}
+        <li>{{ log.activity_type }} on {{ log.date }} for {{ log.duration }} minutes at {{ log.intensity }} intensity
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No activity logs available.</p>
+    {% endif %}
+    <a href="{% url 'create_activity_log' player.id %}">Add Activity Log</a>
+
+    <a href="{% url 'player_list' %}">Back to Player List</a>
+</body>
+
+</html>

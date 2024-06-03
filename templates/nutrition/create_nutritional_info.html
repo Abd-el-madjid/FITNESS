@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Create Nutritional Info for {{ player.name }}</title>
+</head>
+
+<body>
+    <h1>Create Nutritional Info for {{ player.name }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+    <a href="{% url 'player_detail' player.id %}">Back to Player Details</a>
+</body>
+
+</html>
